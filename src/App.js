@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import IMC from './components/IMC';
+import { Grid } from '@mui/material';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Grid container>
+          <Grid item xs={12} md={12} lg={12}>
+            <Navbar />
+          </Grid>
+          <Grid item xs={12} md={12} lg={12}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/imc" element={<IMC />} />
+            </Routes>
+          </Grid>
+        </Grid>
+      </BrowserRouter>
     </div>
   );
 }
