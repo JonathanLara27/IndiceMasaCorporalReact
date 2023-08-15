@@ -16,6 +16,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/imc" element={<IMC />} />
+              {/* Ruta predeterminada */}
+              <Route element={<Home />} />
             </Routes>
           </Grid>
         </Grid>

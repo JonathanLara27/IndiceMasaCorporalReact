@@ -11,8 +11,14 @@ export default function Home() {
                         <Typography variant="h4" style={{ marginTop: '30px' }}>
                             ÍNDICE DE MASA CORPORAL
                         </Typography>
-                        <Typography align='justify' style={{ width: '50%', marginTop: '30px' }}>
+                        <Typography align='justify' style={{ width: '80%', marginTop: '30px' }}>
                             El IMC es un método de evaluación fácil y económico para la categoría de peso: bajo peso, peso saludable, sobrepeso, y obesidad.
+                        </Typography>
+                        <Typography align='justify' style={{ width: '80%',marginTop: '10px' }}>
+                            En esta aplicación podras calcular tu IMC y saber si estas en un peso saludable.
+                        </Typography>
+                        <Typography align='justify' style={{ width: '80%',marginTop: '10px' }}>
+                            Ademas te indicará el peso ideal que deberias tener según tu estatura.
                         </Typography>
                     </CardContent>
                 </Card>

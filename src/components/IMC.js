@@ -4,6 +4,20 @@ import { Typography, Grid, TextField, Box, Card, CardContent } from '@mui/materi
 import Tabledata from './Tabledata';
 import Swal from 'sweetalert2';
 
+function calculateCategory(imc) {
+    for (const entry of imcCategories) {
+        if (imc >= entry.range[0] && imc < entry.range[1]) {
+            return entry.category;
+        }
+    }
+    return 'Categoría no encontrada';
+}
+const imcCategories = [
+    { range: [0, 18], category: 'Bajo Peso' },
+    { range: [18, 25], category: 'Peso Saludable' },
+    { range: [25, 30], category: 'Sobrepeso' },
+    { range: [30, Infinity], category: 'Obesidad' }
+];
 export default function IMC() {
     const [peso, setPeso] = useState(0);
     const [altura, setAltura] = useState(0);
@@ -13,42 +27,47 @@ export default function IMC() {
     const [pesoIdealMayor, setPesoIdealMayor] = useState(0);
     const [errorpeso, setErrorpeso] = useState(false);
     const [erroraltura, setErroraltura] = useState(false);
+    
     useEffect(() => {
         if (peso > 0 && altura > 0) {
             // seteamos el imc pero con 2 decimales
             setImc((peso / (altura * altura)).toFixed(2));
-            if ((peso / (altura * altura)).toFixed(2) < 18) {
-                setCategoria('Bajo Peso');
-            }
-            if ((peso / (altura * altura)).toFixed(2) >= 18 && (peso / (altura * altura)).toFixed(2) <= 24.9) {
-                setCategoria('Peso Saludable');
-            }
-            if ((peso / (altura * altura)).toFixed(2) >= 25 && (peso / (altura * altura)).toFixed(2) <= 29.9) {
-                setCategoria('Sobrepeso');
-            }
-            if ((peso / (altura * altura)).toFixed(2) >= 30) {
-                setCategoria('Obesidad');
-            }
+            // if (imc < 18) {
+            //     setCategoria('Bajo Peso');
+            // }
+            // if (imc >= 18 && imc <= 24.9) {
+            //     setCategoria('Peso Saludable');
+            // }
+            // if (imc >= 25 && imc <= 29.9) {
+            //     setCategoria('Sobrepeso');
+            // }
+            // if (imc >= 30) {
+            //     setCategoria('Obesidad');
+            // }
+            setCategoria(calculateCategory(imc));
         }
-        if (peso <0) {
-            setErrorpeso(true);
-        } else {
-            setErrorpeso(false);
-        }
-        if (altura <0) {
-            setErroraltura(true);
-        } else {
-            setErroraltura(false);
-        }
-    }, [peso, altura]);
+        // if (peso <0) {
+        //     setErrorpeso(true);
+        // } else {
+        //     setErrorpeso(false);
+        // }
+        // if (altura <0) {
+        //     setErroraltura(true);
+        // } else {
+        //     setErroraltura(false);
+        // }
+        //refactorización xd
+        setErrorpeso(peso < 0);
+        setErroraltura(altura < 0);
+    }, [peso, altura,imc]);
     // validar que no se ingrese mas de 3 metros de altura
     useEffect(() => {
-        if (altura > 2.70) {
+        if (altura > 2.70 || altura < 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'La altura no puede ser mayor a 2.70 metros!',
-                timer: 2000,
+                text: 'La altura debe estar en un rango de [0 - 2.70] metros!',
+                timer: 5000,
                 timerProgressBar: true,
             })
             setAltura(0);
@@ -59,12 +78,12 @@ export default function IMC() {
     }, [altura]);
     // validamos que el peso no sea mayor a 300
     useEffect(() => {
-        if (peso > 300) {
+        if (peso > 300 || peso <0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'El peso no puede ser mayor a 300 kilogramos!',
-                timer: 2000,
+                text: 'El peso debe estar en un rango de [0 - 300] kilogramos!',
+                timer: 5000,
                 timerProgressBar: true,
             })
             setPeso(0);
