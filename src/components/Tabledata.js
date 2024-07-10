@@ -18,26 +18,38 @@ const rows = [
     createData('30 o más', 'Obesidad'),
 ];
 
+const imcRanges = [
+    { range: [0, 18.5], index: 0 },
+    { range: [18.5, 25], index: 1 },
+    { range: [25, 30], index: 2 },
+    { range: [30, Infinity], index: 3 }
+];
+
+const getColorConfig = (index) => {
+    const colorConfigs = {
+        0: { backgroundColor: '#FFFF00', textColor: '#000000' }, // Yellow
+        1: { backgroundColor: '#00FF00', textColor: '#000000' }, // Green
+        2: { backgroundColor: '#FFFF00', textColor: '#000000' }, // Yellow
+        3: { backgroundColor: '#FF0000', textColor: '#000000' }  // Red
+    };
+    return colorConfigs[index] || { backgroundColor: '', textColor: '' };
+};
+
+const getIndexForIMC = (imcValue) => {
+    for (const entry of imcRanges) {
+        if (imcValue >= entry.range[0] && imcValue < entry.range[1]) {
+            return entry.index;
+        }
+    }
+    return 0;
+};
+
 export default function Tabledata(imc) {
     // verficar el imc para pintar la tabla
     const [index, setIndex] = React.useState(0);
     const [loading, setLoading] = React.useState(true);
     React.useEffect(() => {
-        const imcRanges = [
-            { range: [0, 18.5], index: 0 },
-            { range: [18.5, 25], index: 1 },
-            { range: [25, 30], index: 2 },
-            { range: [30, Infinity], index: 3 }
-        ];
-
-        let newIndex = 0;
-        for (const entry of imcRanges) {
-            if (imc.imc >= entry.range[0] && imc.imc < entry.range[1]) {
-                newIndex = entry.index;
-                break;
-            }
-        }
-
+        const newIndex = getIndexForIMC(imc.imc);
         setIndex(newIndex);
         setLoading(false);
     }, [imc]);
@@ -54,11 +66,8 @@ export default function Tabledata(imc) {
                     </TableHead>
                     <TableBody>
                         {imc && rows.map((row, i) => {
-                            const isYellow = i === index && (index === 0 || index === 2);
-                            const isGreen = i === index && index === 1;
-                            const isRed = i === index && index === 3;
-                            const textColor = isYellow || isGreen || isRed ? '#000000' : '';
-                            const backgroundColor = isYellow ? '#FFFF00' : isGreen ? '#00FF00' : isRed ? '#FF0000' : '';
+                            const isActiveRow = i === index;
+                            const { backgroundColor, textColor } = isActiveRow ? getColorConfig(index) : { backgroundColor: '', textColor: '' };
 
                             return (
                                 <TableRow

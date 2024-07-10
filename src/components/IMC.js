@@ -32,31 +32,8 @@ export default function IMC() {
         if (peso > 0 && altura > 0) {
             // seteamos el imc pero con 2 decimales
             setImc((peso / (altura * altura)).toFixed(2));
-            // if (imc < 18) {
-            //     setCategoria('Bajo Peso');
-            // }
-            // if (imc >= 18 && imc <= 24.9) {
-            //     setCategoria('Peso Saludable');
-            // }
-            // if (imc >= 25 && imc <= 29.9) {
-            //     setCategoria('Sobrepeso');
-            // }
-            // if (imc >= 30) {
-            //     setCategoria('Obesidad');
-            // }
             setCategoria(calculateCategory(imc));
         }
-        // if (peso <0) {
-        //     setErrorpeso(true);
-        // } else {
-        //     setErrorpeso(false);
-        // }
-        // if (altura <0) {
-        //     setErroraltura(true);
-        // } else {
-        //     setErroraltura(false);
-        // }
-        //refactorización xd
         setErrorpeso(peso < 0);
         setErroraltura(altura < 0);
     }, [peso, altura,imc]);
@@ -94,7 +71,7 @@ export default function IMC() {
         <Grid container>
             <Grid item xs={12} md={6} lg={6} align='center' style={{ padding: '10px' }}>
                 {/*Formulario para ingresar peso y altura*/}
-                <Card container>
+                <Card>
                     <CardContent>
                         <Grid item xs={12} md={12} lg={12} align='center'>
                             <Typography variant="h4">
@@ -110,7 +87,7 @@ export default function IMC() {
                                 variant="outlined"
                                 style={{ marginTop: '20px' }}
                                 value={peso}
-                                defaultValue={peso}
+                                // defaultValue={peso}
                                 color={errorpeso ? 'error' : 'primary'}
                                 error={errorpeso}
                                 focused
@@ -128,7 +105,7 @@ export default function IMC() {
                                 color={erroraltura ? 'error' : 'primary'}
                                 error={erroraltura}
                                 value={altura}
-                                defaultValue={altura}
+                                // defaultValue={altura}
                                 style={{ marginTop: '20px' }}
                                 onChange={(e) => setAltura(e.target.value)}
                                 helperText={erroraltura ? 'La altura no puede ser negativa' : 'Altura en metros.'}
