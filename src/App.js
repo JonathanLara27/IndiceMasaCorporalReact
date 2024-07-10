@@ -13,11 +13,11 @@ function App() {
             <Navbar />
           </Grid>
           <Grid item xs={12} md={12} lg={12}>
-            <Routes>
+            <Routes>  
               <Route path="/" element={<Home />} />
               <Route path="/imc" element={<IMC />} />
               {/* Ruta predeterminada */}
-              <Route element={<Home />} />
+              {/* <Route element={<Home />} /> */}
             </Routes>
           </Grid>
         </Grid>
